@@ -1,4 +1,4 @@
-# Guidance Title (required)
+# Guidance for Amazon EKS Integrations with external SSO Providers
 
 The Guidance title should be consistent with the title established first in Alchemy.
 
