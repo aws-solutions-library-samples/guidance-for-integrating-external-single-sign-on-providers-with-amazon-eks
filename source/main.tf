@@ -1,94 +1,48 @@
-provider "aws" {
-  region = local.region
-}
+################################################################################
+# Base
+################################################################################
+provider "aws" {}
 
+data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
+data "aws_region" "current" {}
 
 locals {
-  name   = basename(path.cwd)
-  region = "us-west-1"
+  region = coalesce(var.region, data.aws_region.current.name)
 
-  vpc_cidr = "10.0.0.0/16"
-  #azs      = slice(data.aws_availability_zones.available.names, 0, 3)
-  azs      = slice(data.aws_availability_zones.available.names, 0, 2)
+  azs = slice(data.aws_availability_zones.available.names, 0, 3)
 
   tags = {
-    Blueprint  = local.name
-    GithubRepo = "github.com/aws-ia/terraform-aws-eks-blueprints"
+    AWSSolution = "guidance-for-amazon-eks-integrations-with-external-sso-providers-on-aws"
+    GithubRepo  = "https://github.com/aws-solutions-library-samples/"
   }
 }
 
 ################################################################################
-# Cluster
+# IAM Roles
 ################################################################################
 
-module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "~> 20.11"
+data "aws_iam_policy_document" "assume_role" {
 
-  cluster_name                   = local.name
-  cluster_version                = "1.30"
-  cluster_endpoint_public_access = true
+  statement {
+    sid     = "AssumeRole"
+    actions = ["sts:AssumeRole"]
 
-  # EKS Addons
-  cluster_addons = {
-    coredns    = {}
-    kube-proxy = {}
-    vpc-cni    = {}
-  }
-
-  vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.private_subnets
-
-  cluster_identity_providers = {
-    okta = {
-      name           = "Okta"
-      issuer_url     = okta_auth_server.eks.issuer
-      client_id      = okta_app_oauth.eks.client_id
-      username_claim = "email"
-      groups_claim   = "groups"
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
     }
   }
-
-  eks_managed_node_groups = {
-    initial = {
-      instance_types = ["m5.xlarge"]
-
-      min_size     = 1
-      max_size     = 5
-      desired_size = 3
-    }
-  }
-
-  tags = local.tags
 }
 
-################################################################################
-# Supporting Resources
-################################################################################
+resource "aws_iam_role" "eks_developers" {
+  name               = "${var.name}-developers"
+  path               = "/"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
 
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.0"
-
-  manage_default_vpc = true
-
-  name = local.name
-  cidr = local.vpc_cidr
-
-  azs             = local.azs
-  private_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 4, k)]
-  public_subnets  = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 48)]
-
-  enable_nat_gateway = true
-  single_nat_gateway = true
-
-  private_subnet_tags = {
-    "kubernetes.io/role/internal-elb" = 1
-  }
-  public_subnet_tags = {
-    "kubernetes.io/role/elb" = 1
-  }
-
-  tags = local.tags
+resource "aws_iam_role" "eks_operators" {
+  name               = "${var.name}-operators"
+  path               = "/"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }

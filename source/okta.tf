@@ -1,9 +1,11 @@
-# You can generate an Okta API token in the Okta Developer Console. Follow these instructions: https://bit.ly/get-okta-api-token
+################################################################################
+# OKTA Resources 
+################################################################################
 
 provider "okta" {
-  org_name  = "dev-58749656"
+  org_name  = var.okta_org_name
   base_url  = "okta.com"
-  api_token = "00k3RbwQBcZZbjJzrYkh07Tig-I_mNPfK-Qc1E7Pmu"
+  api_token = var.okta_api_token
 }
 
 provider "kubernetes" {
@@ -128,36 +130,4 @@ resource "okta_auth_server_policy_rule" "auth_code" {
   grant_type_whitelist = ["authorization_code"]
   group_whitelist      = [okta_group.operators.id, okta_group.developers.id]
   scope_whitelist      = ["*"]
-}
-
-resource "kubernetes_cluster_role_binding_v1" "cluster_admin" {
-  metadata {
-    name = "oidc-cluster-admin"
-  }
-  role_ref {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "ClusterRole"
-    name      = "cluster-admin"
-  }
-  subject {
-    kind      = "Group"
-    name      = "eks-operators"
-    api_group = "rbac.authorization.k8s.io"
-  }
-}
-
-resource "kubernetes_cluster_role_binding_v1" "cluster_viewer" {
-  metadata {
-    name = "oidc-cluster-viewer"
-  }
-  role_ref {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "ClusterRole"
-    name      = "view"
-  }
-  subject {
-    kind      = "Group"
-    name      = "eks-developers"
-    api_group = "rbac.authorization.k8s.io"
-  }
 }
