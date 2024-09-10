@@ -14,14 +14,17 @@ List the top-level sections of the README template, along with a hyperlink to th
 ### Required
 
 1. [Overview](#overview-required)
+    - [Architecture and Message Flow](#architecture-and-workflow)
+    - [AWS services in this Guidance](#aws-services-in-this-guidance)
     - [Cost](#cost)
-2. [Prerequisites](#prerequisites-required)
+3. [Prerequisites](#prerequisites-required)
     - [Operating System](#operating-system-required)
-3. [Deployment Steps](#deployment-steps-required)
-4. [Deployment Validation](#deployment-validation-required)
-5. [Running the Guidance](#running-the-guidance-required)
-6. [Next Steps](#next-steps-required)
-7. [Cleanup](#cleanup-required)
+    - [Supported Regions](#supported-aws-egions)
+4. [Deployment Steps](#deployment-steps-required)
+5. [Deployment Validation](#deployment-validation-required)
+6. [Running the Guidance](#running-the-guidance-required)
+7. [Next Steps](#next-steps-required)
+8. [Cleanup](#cleanup-required)
 
 ***Optional***
 
@@ -39,6 +42,38 @@ List the top-level sections of the README template, along with a hyperlink to th
 
 2. Include the architecture diagram image, as well as the steps explaining the high-level overview and flow of the architecture. 
     - To add a screenshot, create an ‘assets/images’ folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README. 
+
+### Architecture and Workflow
+
+![Architecture Diagram](./assets/images/guidance_eks-sso-integration-ref-archv1.jpg)
+    
+Figure 1. Reference Architecture of Guidance for Amazon EKS Integrations with external SSO Providers   
+</div>
+
+1. User (Platform Engineer) commits and pushes [Terraform](https://www.hashicorp.com/products/terraform) Infrastructure as Code (IaC) changes to EKS Blueprints Git repository.
+2. Terraform Infrastructure provisioning workflow gets triggered upon code push to Git repo or initiated manually by Platform Engineer.
+3. Terraform starts resource deployment/reconciliation processes to the target AWS Cloud and [Okta](https://www.okta.com/) environments.
+4. Required [Amazon Identity and Access Management (IAM)](https://aws.amazon.com/iam/) Roles, Polices and [Key Management Service (KMS)](https://aws.amazon.com/kms/) keys are created.
+5. [Amazon Virtual Private Cloud (VPCs)](https://aws.amazon.com/vpc/), related Subnets, Endpoints and NET Gateways are deployed.
+6. [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/) Cluster Control plane is deployed into EKS managed VPC. 
+7. Amazon EKS Data Plane, [EKS Add-ons]](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) and [Managed Node Groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) are deployed into Customer VPC.
+8. Okta resources, Oauth server, users, groups, and role assignments are created in the designated [Okta organization](https://developer.okta.com/docs/concepts/okta-organizations/).
+9. Integration between EKS and Okta SSO Provider is established together with [Kubernetes Roles and RoleBidindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/).
+10. Amazon EKS Cluster is available for applications and end users, Kubernetes API is accessible to CLI clients via [Elastic Load Balancer (ELB)](https://aws.amazon.com/elasticloadbalancing/) with Okta SSO authentication
+
+
+### AWS services in this Guidance
+| **AWS service**  | Role | Description |
+|-----------|------------|-------------|
+| [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/)| Core service |  EKS service is used to host the Karmada solution that uses containers. In essence it is an extension of the Kubernetes API.|
+| [Amazon Elastic Compute Cloud (EC2)](https://aws.amazon.com/ec2/)| Core service | EC2 service is used as the host of the containers needed for this solution.|
+[Amazon Virtual Private Cloud - VPC](https://aws.amazon.com/vpc/)| Core Service | Network security layer |
+| [Amazon Elastic Conatiner Registry - ECR](http://aws.amazon.com/ecr/) | Supporting service | Used for storing container images required by the runtimes. |
+| [Amazon Network Load Balancer (NLB)](https://aws.amazon.com/elasticloadbalancing/network-load-balancer/)|Supporting service | The NLB  is the entry point to interact with the K8s API server|
+| [Amazon Elastic Block Store (EBS)](https://aws.amazon.com/ebs)|Supporting service | Encrypted EBS volumes are used by the Karmada etcd database attached to compute nodes/EC2 instances to keep its state and consistency. All state changes and updates get persisted in EBS volumes across all EC2 compute nodes that host etcd pods.|
+| [AWS Identity and Access Management (IAM)](https://aws.amazon.com/iam/)|Supporting service |  AWS IAM service is used for the creation of an IAM user with adequate permissions to create and delete Amazon EKS clusters access.|
+
+
 
 ### Cost ( required )
 
@@ -63,6 +98,12 @@ The following table provides a sample cost breakdown for deploying this Guidance
 | ----------- | ------------ | ------------ |
 | Amazon API Gateway | 1,000,000 REST API calls per month  | $ 3.50month |
 | Amazon Cognito | 1,000 active users per month without advanced security feature | $ 0.00 |
+
+## Security
+
+When you build systems on AWS infrastructure, security responsibilities are shared between you and AWS. This [shared responsibility model](https://aws.amazon.com/compliance/shared-responsibility-model/) reduces your operational burden because AWS operates, manages, and controls the components including the host operating system, the virtualization layer, and the physical security of the facilities in which the services operate. For more information about AWS security visit [AWS Cloud Security](http://aws.amazon.com/security/).
+
+This guidance relies on a lot of reasonable default options and "principle of least privilege" access for all resources. Users that deploy it in production should go through all the deployed resources and ensure those defaults comply with their security requirements and policies, have adequate logging levels and alarms enabled and protect access to publicly exposed APIs
 
 ## Prerequisites (required)
 
@@ -107,10 +148,9 @@ The following table provides a sample cost breakdown for deploying this Guidance
 
 <Talk about any critical service limits that affect the regular functioning of the Guidance. If the Guidance requires service limit increase, include the service name, limit name and link to the service quotas page.>
 
-### Supported Regions (if applicable)
+### Supported AWS Regions
 
-<If the Guidance is built for specific AWS Regions, or if the services used in the Guidance do not support all Regions, please specify the Region this Guidance is best suited for>
-
+The AWS services used for this guidance are supported in *all available AWS regions*: 
 
 ## Deployment Steps (required)
 
