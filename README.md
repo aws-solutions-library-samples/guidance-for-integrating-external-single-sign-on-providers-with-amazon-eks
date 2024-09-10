@@ -2,8 +2,6 @@
 
 The Guidance title should be consistent with the title established first in Alchemy.
 
-**Example:** *Guidance for Product Substitutions on AWS*
-
 This title correlates exactly to the Guidance it’s linked to, including its corresponding sample code repository. 
 
 
@@ -32,13 +30,19 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 
 ## Overview
 
+<!--
 1. Provide a brief overview explaining the what, why, or how of your Guidance. You can answer any one of the following to help you write this:
 
     - **Why did you build this Guidance?**
     - **What problem does this Guidance solve?**
+-->
+- Many enterprise AWS customers using 3rd party Single Sign-On (SSO) authentication providers need to integrate their EKS cluster authentication with those providers for consistent application security posture
+- This guidance demonstrates how to automate deployment an Amazon EKS cluster into the AWS Cloud, to be integrated with various Identity Providers (IdP) for Single Sign-On (SSO) authentication using Terraform based blueprints. The configuration for authorization is done using Kubernetes Role-based access control (RBAC).
 
+<!--
 2. Include the architecture diagram image, as well as the steps explaining the high-level overview and flow of the architecture. 
     - To add a screenshot, create an ‘assets/images’ folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README. 
+-->
 
 ### Architecture and Workflow
 
