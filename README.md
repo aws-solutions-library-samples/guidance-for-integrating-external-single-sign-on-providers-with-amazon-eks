@@ -10,18 +10,18 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 ## Table of Contents 
 
 
-1. [Overview](#overview-required)
+1. [Overview](#overview)
     - [Architecture and Message Flow](#architecture-and-workflow)
     - [AWS services in this Guidance](#aws-services-in-this-guidance)
     - [Cost](#cost)
 3. [Prerequisites](#prerequisites-required)
-    - [Operating System](#operating-system-required)
+    - [Operating System](#operating-system)
     - [Supported Regions](#supported-aws-regions)
-4. [Deployment Steps](#deployment-steps-required)
-5. [Deployment Validation](#deployment-validation-required)
-6. [Running the Guidance](#running-the-guidance-required)
-7. [Next Steps](#next-steps-required)
-8. [Cleanup](#cleanup-required)
+4. [Deployment Steps](#deployment-steps)
+5. [Deployment Validation](#deployment-validation)
+6. [Running the Guidance](#running-the-guidance)
+7. [Next Steps](#next-steps)
+8. [Cleanup](#cleanup)
 
 ***Optional***
 
@@ -30,7 +30,7 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 10. [Notices](#notices-optional)
 11. [Authors](#authors-optional)
 
-## Overview (required)
+## Overview
 
 1. Provide a brief overview explaining the what, why, or how of your Guidance. You can answer any one of the following to help you write this:
 
@@ -85,7 +85,7 @@ Replace this amount with the approximate cost for running your Guidance in the d
 Suggest you keep this boilerplate text:
 _We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance._
 
-### Sample Cost Table ( required )
+### Sample Cost Table
 
 **Note : Once you have created a sample cost table using AWS Pricing Calculator, copy the cost breakdown to below table and upload a PDF of the cost estimation on BuilderSpace. Do not add the link to the pricing calculator in the ReadMe.**
 
@@ -109,9 +109,9 @@ When you build systems on AWS infrastructure, security responsibilities are shar
 
 This guidance relies on a lot of reasonable default options and "principle of least privilege" access for all resources. Users that deploy it in production should go through all the deployed resources and ensure those defaults comply with their security requirements and policies, have adequate logging levels and alarms enabled and protect access to publicly exposed APIs
 
-## Prerequisites (required)
+## Prerequisites
 
-### Operating System (required)
+### Operating System
 
 - Talk about the base Operating System (OS) and environment that can be used to run or deploy this Guidance, such as *Mac, Linux, or Windows*. Include all installable packages or modules required for the deployment. 
 - By default, assume Amazon Linux 2/Amazon Linux 2023 AMI as the base environment. All packages that are not available by default in AMI must be listed out.  Include the specific version number of the package or module.
@@ -156,7 +156,7 @@ This guidance relies on a lot of reasonable default options and "principle of le
 
 The AWS services used for this guidance are supported in *all available AWS regions*: 
 
-## Deployment Steps (required)
+## Deployment Steps
 
 Deployment steps must be numbered, comprehensive, and usable to customers at any level of AWS expertise. The steps must include the precise commands to run, and describe the action it performs.
 
@@ -178,7 +178,7 @@ Deployment steps must be numbered, comprehensive, and usable to customers at any
 
 
 
-## Deployment Validation  (required)
+## Deployment Validation
 
 <Provide steps to validate a successful deployment, such as terminal output, verifying that the resource is created, status of the CloudFormation template, etc.>
 
@@ -191,7 +191,7 @@ Deployment steps must be numbered, comprehensive, and usable to customers at any
 
 
 
-## Running the Guidance (required)
+## Running the Guidance
 
 <Provide instructions to run the Guidance with the sample data or input provided, and interpret the output received.> 
 
@@ -204,12 +204,12 @@ This section should include:
 
 
 
-## Next Steps (required)
+## Next Steps
 
 Provide suggestions and recommendations about how customers can modify the parameters and the components of the Guidance to further enhance it according to their requirements.
 
 
-## Cleanup (required)
+## Cleanup
 
 - Include detailed instructions, commands, and console actions to delete the deployed Guidance.
 - If the Guidance requires manual deletion of resources, such as the content of an S3 bucket, please specify.
