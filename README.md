@@ -7,11 +7,8 @@ The Guidance title should be consistent with the title established first in Alch
 This title correlates exactly to the Guidance it’s linked to, including its corresponding sample code repository. 
 
 
-## Table of Contents (required)
+## Table of Contents 
 
-List the top-level sections of the README template, along with a hyperlink to the specific section.
-
-### Required
 
 1. [Overview](#overview-required)
     - [Architecture and Message Flow](#architecture-and-workflow)
@@ -19,7 +16,7 @@ List the top-level sections of the README template, along with a hyperlink to th
     - [Cost](#cost)
 3. [Prerequisites](#prerequisites-required)
     - [Operating System](#operating-system-required)
-    - [Supported Regions](#supported-aws-egions)
+    - [Supported Regions](#supported-aws-regions)
 4. [Deployment Steps](#deployment-steps-required)
 5. [Deployment Validation](#deployment-validation-required)
 6. [Running the Guidance](#running-the-guidance-required)
@@ -75,7 +72,7 @@ Figure 1. Reference Architecture of Guidance for Amazon EKS Integrations with ex
 
 
 
-### Cost ( required )
+### Cost
 
 This section is for a high-level cost estimate. Think of a likely straightforward scenario with reasonable assumptions based on the problem the Guidance is trying to solve. Provide an in-depth cost breakdown table in this section below ( you should use AWS Pricing Calculator to generate cost breakdown ).
 
@@ -94,10 +91,17 @@ _We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/l
 
 The following table provides a sample cost breakdown for deploying this Guidance with the default parameters in the US East (N. Virginia) Region for one month.
 
-| AWS service  | Dimensions | Cost [USD] |
-| ----------- | ------------ | ------------ |
-| Amazon API Gateway | 1,000,000 REST API calls per month  | $ 3.50month |
-| Amazon Cognito | 1,000 active users per month without advanced security feature | $ 0.00 |
+The following sample table provides a sample cost breakdown for deploying this guidance with 3 Amazon EKS clusters (one Karmada control plane and 2 managed clusters) in the US-East-1 `us-east-1` region for one month. The AWS cost calculator is available [here](https://calculator.aws/#/estimate?id=03fdada5a7299a7b70c51a6c9b0037cd0117cbfc). Please that cost calculations are based on the default configuration options of the [End-to-end, fully automated](#end-to-end-fully-automated) guidance deployment method described below.
+
+| **AWS service**  | Dimensions | Cost, month \[USD\] |
+|-----------|------------|------------|
+| Amazon EKS  | 1 cluster | \$ 219 |
+| Amazon EC2  | 3 EC2 compute cluster nodes in each of the 3 clusters | \$ 328.50 |
+| Amazon EBS  | 5GB worth of EBS disk gp3 type | \$ 1.25 |
+| Amazon ELB  | 1 Network Load Balancer | \$ 20.81 <sup>*</sup>|
+| NAT Gateway | 1 instance | \$ 112.05 | 
+| Public IP address | 9 IPs | \$ 32.85 |
+| **TOTAL estimate** |  | **\$ 714.41** |
 
 ## Security
 
@@ -250,6 +254,7 @@ Include a legal disclaimer
 *Customers are responsible for making their own independent assessment of the information in this Guidance. This Guidance: (a) is for informational purposes only, (b) represents AWS current product offerings and practices, which are subject to change without notice, and (c) does not create any commitments or assurances from AWS and its affiliates, suppliers or licensors. AWS products or services are provided “as is” without warranties, representations, or conditions of any kind, whether express or implied. AWS responsibilities and liabilities to its customers are controlled by AWS agreements, and this Guidance is not part of, nor does it modify, any agreement between AWS and its customers.*
 
 
-## Authors (optional)
+## Authors 
 
-Name of code contributors
+- Rodrigo Bersa, Sr.Specialist SA, Containers
+- Daniel Zilberman, Sr.Specialist SA, Technical Solutions
