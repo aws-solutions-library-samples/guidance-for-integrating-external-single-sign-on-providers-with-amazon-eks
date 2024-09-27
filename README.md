@@ -99,13 +99,10 @@ The following sample table provides a sample cost breakdown for deploying this g
 
 | **AWS service**  | Dimensions | Cost, month \[USD\] |
 |-----------|------------|------------|
-| Amazon EKS  | 1 cluster | \$ 219 |
-| Amazon EC2  | 3 EC2 compute cluster nodes in each of the 3 clusters | \$ 328.50 |
-| Amazon EBS  | 5GB worth of EBS disk gp3 type | \$ 1.25 |
-| Amazon ELB  | 1 Network Load Balancer | \$ 20.81 <sup>*</sup>|
-| NAT Gateway | 1 instance | \$ 112.05 | 
-| Public IP address | 9 IPs | \$ 32.85 |
-| **TOTAL estimate** |  | **\$ 714.41** |
+| Amazon EKS  | 1 Cluster | \$ 73 |
+| Amazon EC2  | 2-5 Nodes on the Managed Node Group | \$ 125.56-$ 350.45 |
+| VPC | 1 VPC, 1 NAT Gateway, 1 Public IPv4 | \$ 36.50 | 
+| **TOTAL estimate** |  | **\$ 585.46** |
 
 ## Security
 
