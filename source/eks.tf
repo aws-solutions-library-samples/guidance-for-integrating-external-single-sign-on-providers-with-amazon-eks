@@ -3,6 +3,7 @@
 ################################################################################
 
 module "eks" {
+  #checkov:skip=CKV_TF_1:Hardcode a hash is not a best practice for minor and bug fixes versions.
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.24"
 
@@ -80,7 +81,7 @@ module "eks" {
   eks_managed_node_groups = {
     core_nodegroup = {
       description    = "EKS Core Managed Node Group for hosting system add-ons"
-      instance_types = ["m5a.large", "m5.xlarge", "t3.large", "t3a.large"]
+      instance_types = ["m5a.large", "m5.large"]
       ami_type       = "BOTTLEROCKET_x86_64"
 
       min_size     = 2
@@ -124,10 +125,6 @@ module "eks" {
 
           }
         }
-      }
-
-      node_security_group_tags = {
-        "karpenter.sh/discovery" = "${var.name}-eks"
       }
 
       tags = local.tags

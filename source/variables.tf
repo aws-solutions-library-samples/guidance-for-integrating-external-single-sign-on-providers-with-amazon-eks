@@ -15,7 +15,7 @@ variable "region" {
 }
 
 variable "name" {
-  description = "Standard name to be used on all resources."
+  description = "Standard name to be used as prefix on all resources."
   type        = string
   default     = "okta-sso"
 }

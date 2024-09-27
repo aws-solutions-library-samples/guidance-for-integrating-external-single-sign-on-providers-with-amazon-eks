@@ -3,6 +3,7 @@
 ################################################################################
 
 module "vpc" {
+  #checkov:skip=CKV_TF_1:Hardcode a hash is not a best practice for minor and bug fixes versions.
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 5.0"
 
