@@ -4,6 +4,10 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
+*.tfplan
+
+# Terraform lockfile
+.terraform.lock.hcl
 
 # Crash log files
 crash.log
@@ -38,6 +42,16 @@ override.tf.json
 terraform.rc
 
 .DS_Store
+.idea
+.build
+*.vscode
 
 # Exclude keys dir
 /apps/*/keys
+
+# TFSec files
+.tfsec
+
+# local env
+*.envrc
+*kube-config.yaml
