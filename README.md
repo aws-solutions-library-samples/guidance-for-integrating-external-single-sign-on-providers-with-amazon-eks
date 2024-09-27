@@ -46,7 +46,7 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 
 ### Architecture and Workflow
 
-![Architecture Diagram](./assets/images/guidance_eks-sso-integration-ref-archv1.jpg)
+![Architecture Diagram](./assets/images/guidance_eks-sso-integration-ref-archv1.png)
     
 Figure 1. Reference Architecture of Guidance for Amazon EKS Integrations with external SSO Providers   
 </div>
