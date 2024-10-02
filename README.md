@@ -25,8 +25,8 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 
 8. [FAQ, known issues, additional considerations, and limitations](#faq-known-issues-additional-considerations-and-limitations-optional)
 9. [Revisions](#revisions-optional)
-10. [Notices](#notices-optional)
-11. [Authors](#authors-optional)
+10. [Notices](#notices)
+11. [Authors](#authors)
 
 ## Overview
 
@@ -247,7 +247,7 @@ Document all notable changes to this project.
 
 Consider formatting this section based on Keep a Changelog, and adhering to Semantic Versioning.
 
-## Notices (optional)
+## Notices
 
 Include a legal disclaimer
 
