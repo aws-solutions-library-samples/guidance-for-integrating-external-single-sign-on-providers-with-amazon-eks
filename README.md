@@ -117,14 +117,11 @@ This guidance relies on a lot of reasonable default options and "principle of le
 
 ### Operating System
 
-- Talk about the base Operating System (OS) and environment that can be used to run or deploy this Guidance, such as *Mac, Linux, or Windows*. Include all installable packages or modules required for the deployment. 
-- By default, assume Amazon Linux 2/Amazon Linux 2023 AMI as the base environment. All packages that are not available by default in AMI must be listed out.  Include the specific version number of the package or module.
+This solution relies on Bottlerocket as the Operational System on the Amazon EKS worker nodes. It keeps three primary goals: **Minimal** - **Safe Updates** - **Security Focused**.
 
-**Example:**
-“These deployment instructions are optimized to best work on **<Amazon Linux 2 AMI>**.  Deployment in another OS may require additional steps.”
+Bottlerocket is a Linux-based operating system optimized for hosting containers. It’s free and open-source software, developed in the open on GitHub. Bottlerocket is installed as the base operating system on the data plane side of the Amazon EKS clusters, where your containers are running. It is specifically designed to work with container orchestrator, suchas Kubernetes, to automate the lifecycle of the containers running in your cluster. 
 
-- Include install commands for packages, if applicable.
-
+Because it's API driven, Bottlerocket comes ready to run on Amazon EKS without any additional packages or requirements, being an out-of-the-box solution, already compliant with **CIS Benchmark Level 1**.
 
 ### Third-party tools (If applicable)
 
