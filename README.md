@@ -104,6 +104,8 @@ The following sample table provides a sample cost breakdown for deploying this g
 | VPC | 1 VPC, 1 NAT Gateway, 1 Public IPv4 | \$ 36.50 | 
 | **TOTAL estimate** |  | **\$ 585.46** |
 
+Detailed cost breakdown is available via this [Cost calculator](https://calculator.aws/#/estimate?id=c95b08fa878bb02e81b2704ca7df3754f75d13c8)
+
 ## Security
 
 When you build systems on AWS infrastructure, security responsibilities are shared between you and AWS. This [shared responsibility model](https://aws.amazon.com/compliance/shared-responsibility-model/) reduces your operational burden because AWS operates, manages, and controls the components including the host operating system, the virtualization layer, and the physical security of the facilities in which the services operate. For more information about AWS security visit [AWS Cloud Security](http://aws.amazon.com/security/).
