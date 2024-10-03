@@ -102,7 +102,7 @@ The following sample table provides a sample cost breakdown for deploying this g
 | Amazon EKS  | 1 Cluster | \$ 73 |
 | Amazon EC2  | 2-5 Nodes on the Managed Node Group | \$ 125.56-$ 350.45 |
 | VPC | 1 VPC, 1 NAT Gateway, 1 Public IPv4 | \$ 36.50 | 
-| **TOTAL estimate** |  | **\$ 585.46** |
+| **TOTAL estimate** |  | **\$ 235.06-$ 459.95** |
 
 Detailed cost breakdown is available via this [Cost calculator](https://calculator.aws/#/estimate?id=c95b08fa878bb02e81b2704ca7df3754f75d13c8)
 
