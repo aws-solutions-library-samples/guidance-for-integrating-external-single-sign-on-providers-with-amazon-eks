@@ -46,7 +46,7 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 
 ### Architecture and Workflow
 
-![Architecture Diagram](./assets/images/guidance_eks-sso-integration-ref-archv1.png)
+![Architecture Diagram](./assets/images/eks-okta-sso-reference-architecture.jpg)
     
 Figure 1. Reference Architecture of Guidance for Amazon EKS Integrations with external SSO Providers   
 </div>
@@ -59,8 +59,8 @@ Figure 1. Reference Architecture of Guidance for Amazon EKS Integrations with ex
 6. [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/) Cluster Control plane is deployed into EKS managed VPC. 
 7. Amazon EKS Data Plane, [EKS Add-ons]](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) and [Managed Node Groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) are deployed into Customer VPC.
 8. Okta resources, Oauth server, users, groups, and role assignments are created in the designated [Okta organization](https://developer.okta.com/docs/concepts/okta-organizations/).
-9. Integration between EKS and Okta SSO Provider is established together with [Kubernetes Roles and RoleBidindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/).
-10. Amazon EKS Cluster is available for applications and end users, Kubernetes API is accessible to CLI clients via [Elastic Load Balancer (ELB)](https://aws.amazon.com/elasticloadbalancing/) with Okta SSO authentication
+9. Integration between EKS and Okta SSO Provider is established together with required [Kubernetes Roles and RoleBidindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/).
+10. Amazon EKS Cluster is available for applications and end users, Kubernetes API is accessible via  [Network Load Balancer (NLB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) with Okta SSO user authentication
 
 
 ### AWS services in this Guidance
@@ -79,16 +79,9 @@ Figure 1. Reference Architecture of Guidance for Amazon EKS Integrations with ex
 
 ### Cost
 
-This section is for a high-level cost estimate. Think of a likely straightforward scenario with reasonable assumptions based on the problem the Guidance is trying to solve. Provide an in-depth cost breakdown table in this section below ( you should use AWS Pricing Calculator to generate cost breakdown ).
+You are responsible for the cost of the AWS services used while running this Guidance. As of October, 2024 , the cost for running this Guidance with the default settings in the `us-east-1` Region (US East (N. Virginia))  is approximately $235.06-$459.95 per month.
 
-Start this section with the following boilerplate text:
-
-_You are responsible for the cost of the AWS services used while running this Guidance. As of <month> <year>, the cost for running this Guidance with the default settings in the <Default AWS Region (Most likely will be US East (N. Virginia)) > is approximately $<n.nn> per month for processing ( <nnnnn> records )._
-
-Replace this amount with the approximate cost for running your Guidance in the default Region. This estimate should be per month and for processing/serving resonable number of requests/entities.
-
-Suggest you keep this boilerplate text:
-_We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance._
+We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance.
 
 ### Sample Cost Table
 
@@ -96,7 +89,9 @@ _We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/l
 
 The following table provides a sample cost breakdown for deploying this Guidance with the default parameters in the US East (N. Virginia) Region for one month.
 
-The following sample table provides a sample cost breakdown for deploying this guidance with 3 Amazon EKS clusters (one Karmada control plane and 2 managed clusters) in the US-East-1 `us-east-1` region for one month. The AWS cost calculator is available [here](https://calculator.aws/#/estimate?id=03fdada5a7299a7b70c51a6c9b0037cd0117cbfc). Please that cost calculations are based on the default configuration options of the [End-to-end, fully automated](#end-to-end-fully-automated) guidance deployment method described below.
+The following sample table provides a sample cost breakdown for deploying this guidance with 3 Amazon EKS clusters (one Karmada control plane and 2 managed clusters)
+in the US-East-1 `us-east-1` region for one month. The AWS cost calculator is available [here](https://calculator.aws/#/estimate?id=03fdada5a7299a7b70c51a6c9b0037cd0117cbfc). 
+Please that cost calculations are based on the default configuration options of the [End-to-end, fully automated](#end-to-end-fully-automated) guidance deployment method described below.
 
 | **AWS service**  | Dimensions | Cost, month \[USD\] |
 |-----------|------------|------------|
@@ -105,13 +100,12 @@ The following sample table provides a sample cost breakdown for deploying this g
 | VPC | 1 VPC, 1 NAT Gateway, 1 Public IPv4 | \$ 36.50 | 
 | **TOTAL estimate** |  | **\$ 235.06-$ 459.95** |
 
-Detailed cost breakdown is available via this [Cost calculator](https://calculator.aws/#/estimate?id=c95b08fa878bb02e81b2704ca7df3754f75d13c8)
 
 ## Security
 
 When you build systems on AWS infrastructure, security responsibilities are shared between you and AWS. This [shared responsibility model](https://aws.amazon.com/compliance/shared-responsibility-model/) reduces your operational burden because AWS operates, manages, and controls the components including the host operating system, the virtualization layer, and the physical security of the facilities in which the services operate. For more information about AWS security visit [AWS Cloud Security](http://aws.amazon.com/security/).
 
-This guidance relies on a lot of reasonable default options and "principle of least privilege" access for all resources. Users that deploy it in production should go through all the deployed resources and ensure those defaults comply with their security requirements and policies, have adequate logging levels and alarms enabled and protect access to publicly exposed APIs
+This guidance relies on a lot of reasonable default options and "principle of least privilege" access for all resources. Users that deploy it in production should go through all the deployed resources and ensure those defaults comply with their security requirements and policies, have adequate logging levels and alarms enabled and protect access to publicly exposed APIs. Since the Kubernetes clusters should be able to communicate with each other and can be deployed on different VPCs, AWS regions, AWS accounts or even in non-AWS infrastructure, this solution assumes publicly exposed Kubernetes APIs that utilize inherent Kubernetes mechanisms to protect access. 
 
 ## Prerequisites
 
