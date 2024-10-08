@@ -123,8 +123,7 @@ Because it's API driven, Bottlerocket comes ready to run on Amazon EKS without a
 
 ### Third-party tools (If applicable)
 
-*List any installable third-party tools required for deployment.*
-
+[Okta Single Sign-On](https://www.okta.com/products/single-sign-on-customer-identity/) is the only third-party software deployed as part of this solution. Okta SSO management platform provides control, security, and easiness where users can simply log in once and use all accessible resources.
 
 ### AWS account requirements (If applicable)
 
