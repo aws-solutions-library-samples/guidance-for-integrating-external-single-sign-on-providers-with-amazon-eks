@@ -46,9 +46,9 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 
 ### Architecture and Workflow
 
-![Architecture Diagram](./assets/images/eks-okta-sso-reference-architecture.jpg)
+![Architecture Diagram](./assets/images/eks-okta-sso-reference-architecture-new.jpg)
     
-Figure 1. Reference Architecture of Guidance for Amazon EKS Integrations with external SSO Providers   
+Figure 1. Amazon EKS Integrations with external SSO Providers - Reference Architecture
 </div>
 
 1. User (Platform Engineer) commits and pushes [Terraform](https://www.hashicorp.com/products/terraform) Infrastructure as Code (IaC) changes to EKS Blueprints GitHub repository.
@@ -58,13 +58,14 @@ Figure 1. Reference Architecture of Guidance for Amazon EKS Integrations with ex
 5. [Amazon Virtual Private Cloud (VPCs)](https://aws.amazon.com/vpc/), related Subnets, Endpoints and NET Gateways are deployed.
 6. [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/) Cluster Control plane is deployed into EKS VPC.The cluster control plane is provisioned across multiple Availability Zones and fronted by [Network Load Balancing (NLB)](https://aws.amazon.com/elasticloadbalancing/network-load-balancer/)
 7. Customer VPC for Amazon EKS Compute Plane with Public and Private subnets and other networking components is deployed
-8. Amazon EKS Compute Plane with Managed Node Groups containing Amazon Elastic Compute Cloud (Amazon EC2) compute nodes are deployed into Customer VPC along with  [EKS Add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html)
+8. Amazon EKS Compute Plane with Managed Node Groups containing Amazon Elastic Compute Cloud (Amazon EC2) compute nodes running [AWS Bottlerocket](https://aws.amazon.com/bottlerocket/?amazon-bottlerocket-whats-new&amazon-bottlerocket-whats-new.sort-by=item.additionalFields.postDateTime&amazon-bottlerocket-whats-new.sort-order=desc) OS 
+are deployed into Customer VPC along with  [EKS Add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html)
 9. Okta resources, Oauth server, users, groups, and role assignments are created in the designated [Okta organization](https://developer.okta.com/docs/concepts/okta-organizations/).
 11. Integration between EKS and Okta SSO Provider is established together with required [Kubernetes Roles and RoleBidindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/).
 12. Amazon EKS Cluster is available for applications and end users, Kubernetes API is accessible via  [Network Load Balancer (NLB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) with Okta SSO user authentication
 
 
-### AWS services in this Guidance
+### AWS Services in this guidance
 | **AWS service**  | Role | Description |
 |-----------|------------|-------------|
 | [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/)| Core service |  EKS service is used to host the Karmada solution that uses containers. In essence it is an extension of the Kubernetes API.|
@@ -114,7 +115,7 @@ The guidance also ensure data protection with encryption enabled on Amazon EKS a
 
 ### Operating System
 
-This solution relies on Bottlerocket as the Operational System on the Amazon EKS worker nodes. It keeps three primary goals: **Minimal** - **Safe Updates** - **Security Focused**.
+This solution relies on [AWS Bottlerocket](https://aws.amazon.com/bottlerocket/?amazon-bottlerocket-whats-new&amazon-bottlerocket-whats-new.sort-by=item.additionalFields.postDateTime&amazon-bottlerocket-whats-new.sort-order=desc) as the Operational System on the Amazon EKS worker nodes. It keeps three primary goals: **Minimal** - **Safe Updates** - **Security Focused**.
 
 Bottlerocket is a Linux-based operating system optimized for hosting containers. It’s free and open-source software, developed in the open on GitHub. Bottlerocket is installed as the base operating system on the data plane side of the Amazon EKS clusters, where your containers are running. It is specifically designed to work with container orchestrator, suchas Kubernetes, to automate the lifecycle of the containers running in your cluster. 
 
