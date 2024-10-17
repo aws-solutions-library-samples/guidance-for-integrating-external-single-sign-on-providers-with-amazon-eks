@@ -51,16 +51,17 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 Figure 1. Reference Architecture of Guidance for Amazon EKS Integrations with external SSO Providers   
 </div>
 
-1. User (Platform Engineer) commits and pushes [Terraform](https://www.hashicorp.com/products/terraform) Infrastructure as Code (IaC) changes to EKS Blueprints Git repository.
-2. Terraform Infrastructure provisioning workflow gets triggered upon code push to Git repo or initiated manually by Platform Engineer.
+1. User (Platform Engineer) commits and pushes [Terraform](https://www.hashicorp.com/products/terraform) Infrastructure as Code (IaC) changes to EKS Blueprints GitHub repository.
+2. Terraform Infrastructure provisioning workflow gets triggered upon code push to GitHub repo or initiated manually by Platform Engineer.
 3. Terraform starts resource deployment/reconciliation processes to the target AWS Cloud and [Okta](https://www.okta.com/) environments.
 4. Required [Amazon Identity and Access Management (IAM)](https://aws.amazon.com/iam/) Roles, Polices and [Key Management Service (KMS)](https://aws.amazon.com/kms/) keys are created.
 5. [Amazon Virtual Private Cloud (VPCs)](https://aws.amazon.com/vpc/), related Subnets, Endpoints and NET Gateways are deployed.
-6. [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/) Cluster Control plane is deployed into EKS managed VPC. 
-7. Amazon EKS Data Plane, [EKS Add-ons]](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) and [Managed Node Groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) are deployed into Customer VPC.
-8. Okta resources, Oauth server, users, groups, and role assignments are created in the designated [Okta organization](https://developer.okta.com/docs/concepts/okta-organizations/).
-9. Integration between EKS and Okta SSO Provider is established together with required [Kubernetes Roles and RoleBidindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/).
-10. Amazon EKS Cluster is available for applications and end users, Kubernetes API is accessible via  [Network Load Balancer (NLB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) with Okta SSO user authentication
+6. [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/) Cluster Control plane is deployed into EKS VPC.The cluster control plane is provisioned across multiple Availability Zones and fronted by [Network Load Balancing (NLB)](https://aws.amazon.com/elasticloadbalancing/network-load-balancer/)
+7. Customer VPC for Amazon EKS Compute Plane with Public and Private subnets and other networking components is deployed
+8. Amazon EKS Compute Plane with Managed Node Groups containing Amazon Elastic Compute Cloud (Amazon EC2) compute nodes are deployed into Customer VPC along with  [EKS Add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html)
+9. Okta resources, Oauth server, users, groups, and role assignments are created in the designated [Okta organization](https://developer.okta.com/docs/concepts/okta-organizations/).
+11. Integration between EKS and Okta SSO Provider is established together with required [Kubernetes Roles and RoleBidindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/).
+12. Amazon EKS Cluster is available for applications and end users, Kubernetes API is accessible via  [Network Load Balancer (NLB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) with Okta SSO user authentication
 
 
 ### AWS services in this Guidance
@@ -74,8 +75,6 @@ Figure 1. Reference Architecture of Guidance for Amazon EKS Integrations with ex
 | [Amazon Elastic Block Store (EBS)](https://aws.amazon.com/ebs)|Supporting service | Encrypted EBS volumes are used by the Karmada etcd database attached to compute nodes/EC2 instances to keep its state and consistency. All state changes and updates get persisted in EBS volumes across all EC2 compute nodes that host etcd pods.|
 | [AWS Identity and Access Management (IAM)](https://aws.amazon.com/iam/)|Supporting service |  AWS IAM service is used for the creation of an IAM user with adequate permissions to create and delete Amazon EKS clusters access.|
 | [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/)|Supporting service |  AWS KMS is responsible for managing encryption keys that can be applied to several resouces, making sure to protect data at rest. Some examples of encrypted resources on this solution are Amazon EBS volumes, and Amazon EKS Clusters.|
-
-
 
 ### Cost
 
