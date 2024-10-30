@@ -11,6 +11,8 @@ module "eks" {
   cluster_version                = var.cluster_version
   cluster_endpoint_public_access = true
 
+  cluster_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+
   # Cluster access entry
   # To add the current caller identity as an administrator
   enable_cluster_creator_admin_permissions = true
