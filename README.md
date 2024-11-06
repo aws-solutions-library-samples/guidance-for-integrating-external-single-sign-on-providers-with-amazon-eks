@@ -144,7 +144,7 @@ The AWS services used for this guidance are supported in all AWS regions at this
    cd guidance-for-amazon-eks-integrations-with-external-sso-providers-on-aws/source
    ```
 3. Adjust any required variables on the `variables.tf` file or creating a `.tfvars` file.
-4. Edit the `sso.tf` file to insert your Okta organization and token.
+4. Edit the `okta.tf` file to insert values for your Okta organization and token.
 5. Initialize Terraform providers.
    ```sh
    terraform init
