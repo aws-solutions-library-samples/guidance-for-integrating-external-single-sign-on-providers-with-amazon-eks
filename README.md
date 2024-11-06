@@ -30,19 +30,9 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 
 ## Overview
 
-<!--
-1. Provide a brief overview explaining the what, why, or how of your Guidance. You can answer any one of the following to help you write this:
 
-    - **Why did you build this Guidance?**
-    - **What problem does this Guidance solve?**
--->
 - Many enterprise AWS customers using 3rd party Single Sign-On (SSO) authentication providers need to integrate their EKS cluster authentication with those providers for consistent application security posture
 - This guidance demonstrates how to automate deployment an Amazon EKS cluster into the AWS Cloud, to be integrated with various Identity Providers (IdP) for Single Sign-On (SSO) authentication using Terraform based blueprints. The configuration for authorization is done using Kubernetes Role-based access control (RBAC).
-
-<!--
-2. Include the architecture diagram image, as well as the steps explaining the high-level overview and flow of the architecture. 
-    - To add a screenshot, create an ‘assets/images’ folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README. 
--->
 
 ### Architecture and Workflow
 
@@ -176,13 +166,19 @@ It is always recommended to monitor an output of Terraform code for possible err
 
 ## Deployment Validation
 
-After the `terraform` commands are executed successfully, check if the newly created users are active.
+1. After the `terraform` commands are executed successfully, check if the newly created users are active.
 
 To do that use the link provided in the email invite if you added a valid email address for your users, or go to the [Okta Admin Dashboard](https://dev-ORGID-admin.okta.com/admin/users/), select the user, and click on *Set Password and Activate* button.
 
-1. With the active users, use the `terraform output` example to setup your `kubeconfig` profile to authenticate through Okta.
+![Set Okta User Password](./assets/images/okta_user_set_password.jpg)
+    
+Figure 2. Set Password and Activate OKTA user
 
-    ```
+2. With the active users, use the `terraform output` example to setup your `kubeconfig` profile to authenticate through Okta using `Authentication server issuer URL` and `ClientID`. You can also find out those values from Okta web console as shown below:
+   
+![Okta Authentication Server URL](./assets/images/okta_api_authorization_server.jpg)
+
+```
     configure_kubeconfig = <<EOT
     kubectl config set-credentials oidc \
       --exec-api-version=client.authentication.k8s.io/v1beta1 \
@@ -192,14 +188,15 @@ To do that use the link provided in the email invite if you added a valid email 
       --exec-arg=--oidc-issuer-url=https://dev-ORGID.okta.com/oauth2/1234567890abcdefghij \
       --exec-arg=--oidc-client-id=1234567890abcdefghij
       --exec-arg=--oidc-extra-scope="email offline_access profile openid"
-    ```
+```
+Running that file should open a browser window that provides an Okta authentication UI. 
 
-2. With the `kubeconfig` configured, you'll be able to run `kubectl` commands in your Amazon EKS Cluster using the `--user` cli option to impersonate the Okta authenticated user. When `kubectl` command is issued with the `--user` option for the first time, your browser window will open and require you to authenticate.
+3. With the `kubeconfig` configured, you'll be able to run `kubectl` commands in your Amazon EKS Cluster using the `--user` cli option to impersonate the Okta authenticated user. When `kubectl` command is issued with the `--user` option for the first time, your browser window will open and require you to authenticate.
 
     The read-only user has a `cluster-viewer` Kubernetes role bound to it's group, whereas the admin user, has the `admin` Kubernetes role bound to it's group.
 
     ```
-    kubectl get pods -A
+    kubectl get pods -A --user oidc
     NAMESPACE          NAME                        READY   STATUS    RESTARTS   AGE
     amazon-guardduty   aws-guardduty-agent-bl2v2   1/1     Running   0          3h54m
     amazon-guardduty   aws-guardduty-agent-s1vcx   1/1     Running   0          3h54m
@@ -214,13 +211,12 @@ To do that use the link provided in the email invite if you added a valid email 
     kube-system        kube-proxy-qk2mc            1/1     Running   0          3h54m
     ```
 
-3. You can also use the `configure_kubectl` output to assume the *Cluster creator* role with `cluster-admin` access.
+4. You can also use the `configure_kubectl` output to assume the *Cluster creator* role with `cluster-admin` access.
 
     ```
     configure_kubectl = "aws eks --region us-west-2 update-kubeconfig --name okta"
     ```
-
-4. It's also possible to pre-configure your `kubeconfig` using the `okta_login` output. This will also require you to authenticate in a browser window.
+5. It's also possible to pre-configure your `kubeconfig` using the `okta_login` output. This will also require you to authenticate in a browser window.
 
     ```
     okta_login = "kubectl oidc-login setup --oidc-issuer-url=https://dev-ORGID.okta.com/oauth2/1234567890abcdefghij--oidc-client-id=1234567890abcdefghij"
@@ -237,11 +233,10 @@ To do that use the link provided in the email invite if you added a valid email 
 
 ## Next Steps
 
-Provide suggestions and recommendations about how customers can modify the parameters and the components of the Guidance to further enhance it according to their requirements.
+You are welcome to update the sample code provided in this guidance to adjust to your Okta SSO provider settings and other configuration parameters. You can also contribute to the project by submitting a Pull Request which will be reviewed and processed.
 
 ## Notices
 
-Include a legal disclaimer
 
 *Customers are responsible for making their own independent assessment of the information in this Guidance. This Guidance: (a) is for informational purposes only, (b) represents AWS current product offerings and practices, which are subject to change without notice, and (c) does not create any commitments or assurances from AWS and its affiliates, suppliers or licensors. AWS products or services are provided “as is” without warranties, representations, or conditions of any kind, whether express or implied. AWS responsibilities and liabilities to its customers are controlled by AWS agreements, and this Guidance is not part of, nor does it modify, any agreement between AWS and its customers.*
 
