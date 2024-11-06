@@ -85,7 +85,6 @@ module "eks" {
       description    = "EKS Core Managed Node Group for hosting system add-ons"
       #Use AWS Graviton based AMI for compute nodes
       instance_types = ["m7g.large"]
-      #ami_type       = "BOTTLEROCKET_x86_64"
       ami_type       = "BOTTLEROCKET_ARM_64"
 
       min_size     = 2
