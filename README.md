@@ -144,12 +144,25 @@ The AWS services used for this guidance are supported in all AWS regions at this
    cd guidance-for-amazon-eks-integrations-with-external-sso-providers-on-aws/source
    ```
 3. Adjust any required variables on the `variables.tf` file or creating a `.tfvars` file.
-4. Edit the `okta.tf` file to insert values for your Okta organization and token.
+4. Edit the `okta.tf` file to insert values for your Okta organization and token. Actually, those values can be entered in the `variables.tf` as well as shown below:
+   ```sh
+    variable "okta_org_name" {
+       description = "Okta organization name. This information is show in the https://okta.com portal after login in. Example: `dev-12345678`."
+       type        = string
+       default     = "dev-587496XX"
+     }
+
+   variable "okta_api_token" {
+       description = "Authentication token for Okta. You can generate an Okta API token in the Okta Developer Console. Follow these instructions: https://bit.ly/get-okta-api-token."
+       type        = string
+       default     = "00xQ1suYg5wlhCPRR7v_XXXXXXXXXXXXXXXXXX"
+    }
+    ```
 5. Initialize Terraform providers.
    ```sh
    terraform init
    ```
-6. Plan your Terraform deployment.
+6. Plan/validate your Terraform deployment.
    ```sh
    terraform plan
    ```
@@ -159,6 +172,7 @@ The AWS services used for this guidance are supported in all AWS regions at this
    terraform apply -target module.eks -auto-approve
    terraform apply -auto-approve
    ```
+It is always recommended to monitor an output of Terraform code for possible errors and other messages from provisoners
 
 ## Deployment Validation
 
