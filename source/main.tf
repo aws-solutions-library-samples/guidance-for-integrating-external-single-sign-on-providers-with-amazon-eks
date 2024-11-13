@@ -46,3 +46,20 @@ resource "aws_iam_role" "eks_operators" {
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
+#--------------------------------------------------------------
+# Adding guidance solution ID via AWS CloudFormation resource
+#--------------------------------------------------------------
+resource "aws_cloudformation_stack" "guidance_deployment_metrics" {
+    name = "tracking-stack"
+    template_body = <<STACK
+    {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "Guidance for Amazon EKS Integrations with external SSO Providers (SOXXXXX)",
+        "Resources": {
+            "EmptyResource": {
+                "Type": "AWS::CloudFormation::WaitConditionHandle"
+            }
+        }
+    }
+    STACK
+}
