@@ -4,7 +4,6 @@ The Guidance title should be consistent with the title established first in Alch
 
 This title correlates exactly to the Guidance it’s linked to, including its corresponding sample code repository. 
 
-
 ## Table of Contents 
 
 
@@ -12,31 +11,26 @@ This title correlates exactly to the Guidance it’s linked to, including its co
     - [Architecture and Message Flow](#architecture-and-workflow)
     - [AWS services in this Guidance](#aws-services-in-this-guidance)
     - [Cost](#cost)
-3. [Prerequisites](#prerequisites-required)
+2. [Prerequisites](#prerequisites-required)
     - [Operating System](#operating-system)
     - [Supported Regions](#supported-aws-regions)
-4. [Deployment Steps](#deployment-steps)
-5. [Deployment Validation](#deployment-validation)
-6. [Running the Guidance](#running-the-guidance)
-7. [Next Steps](#next-steps)
-8. [Cleanup](#cleanup)
-
-***Optional***
-
-8. [FAQ, known issues, additional considerations, and limitations](#faq-known-issues-additional-considerations-and-limitations-optional)
-9. [Revisions](#revisions-optional)
-10. [Notices](#notices)
-11. [Authors](#authors)
+3. [Deployment Steps](#deployment-steps)
+4. [Deployment Validation](#deployment-validation)
+5. [Running the Guidance](#running-the-guidance)
+6. [Next Steps](#next-steps)
+7. [Cleanup](#cleanup)
+8. [Next Steps](#next-steps)
+9. [Notices](#notices)
+10. [Authors](#authors)
 
 ## Overview
-
 
 - Many enterprise AWS customers using 3rd party Single Sign-On (SSO) authentication providers need to integrate their EKS cluster authentication with those providers for consistent application security posture
 - This guidance demonstrates how to automate deployment an Amazon EKS cluster into the AWS Cloud, to be integrated with various Identity Providers (IdP) for Single Sign-On (SSO) authentication using Terraform based blueprints. The configuration for authorization is done using Kubernetes Role-based access control (RBAC).
 
 ### Architecture and Workflow
 
-![Architecture Diagram](./assets/images/eks-okta-sso-reference-architecture-new.jpg)
+![Architecture Diagram](./assets/images/integrating-external-single-sign-on-providers-with-amazon-eks.png)
     
 Figure 1. Amazon EKS Integrations with external SSO Providers - Reference Architecture
 </div>
@@ -185,8 +179,8 @@ Figure 2. Set Password and Activate OKTA user
       --exec-command=kubectl \
       --exec-arg=oidc-login \
       --exec-arg=get-token \
-      --exec-arg=--oidc-issuer-url=https://dev-ORGID.okta.com/oauth2/1234567890abcdefghij \
-      --exec-arg=--oidc-client-id=1234567890abcdefghij
+      --exec-arg=--oidc-issuer-url=https://dev-ORGID.okta.com/oauth2/XXXXXXXXXXXXXXXXXX \
+      --exec-arg=--oidc-client-id=XXXXXXXXXXXXXXXXXX
       --exec-arg=--oidc-extra-scope="email offline_access profile openid"
 ```
 Running that file should open a browser window that provides an Okta authentication UI. 
@@ -219,12 +213,12 @@ Running that file should open a browser window that provides an Okta authenticat
 5. It's also possible to pre-configure your `kubeconfig` using the `okta_login` output. This will also require you to authenticate in a browser window.
 
     ```
-    okta_login = "kubectl oidc-login setup --oidc-issuer-url=https://dev-ORGID.okta.com/oauth2/1234567890abcdefghij--oidc-client-id=1234567890abcdefghij"
+    okta_login = "kubectl oidc-login setup --oidc-issuer-url=https://dev-ORGID.okta.com/oauth2/XXXXXXXXXXXXXXXXXX--oidc-client-id=XXXXXXXXXXXXXXXXXX"
     ```
 
 ## Cleanup
 
-1. To tear down all the provisioned resources, run the Terraform destroy command from the same directory it was applied.
+1. To tear down all the provisioned resources related to this guidance, run the Terraform destroy command from the same directory it was applied.
 
     ```
     cd guidance-for-amazon-eks-integrations-with-external-sso-providers-on-aws/source
@@ -233,10 +227,9 @@ Running that file should open a browser window that provides an Okta authenticat
 
 ## Next Steps
 
-You are welcome to update the sample code provided in this guidance to adjust to your Okta SSO provider settings and other configuration parameters. You can also contribute to the project by submitting a Pull Request which will be reviewed and processed.
+You are welcome to update the sample code provided in this guidance to adjust to your Okta SSO provider settings and other configuration parameters. You can also contribute to the project by submitting a Pull Request which will be reviewed and processed by the maintainers.
 
 ## Notices
-
 
 *Customers are responsible for making their own independent assessment of the information in this Guidance. This Guidance: (a) is for informational purposes only, (b) represents AWS current product offerings and practices, which are subject to change without notice, and (c) does not create any commitments or assurances from AWS and its affiliates, suppliers or licensors. AWS products or services are provided “as is” without warranties, representations, or conditions of any kind, whether express or implied. AWS responsibilities and liabilities to its customers are controlled by AWS agreements, and this Guidance is not part of, nor does it modify, any agreement between AWS and its customers.*
 
