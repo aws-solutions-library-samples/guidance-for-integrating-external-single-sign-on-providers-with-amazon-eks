@@ -54,7 +54,7 @@ resource "aws_cloudformation_stack" "guidance_deployment_metrics" {
     template_body = <<STACK
     {
         "AWSTemplateFormatVersion": "2010-09-09",
-        "Description": "Guidance for Amazon EKS Integrations with external SSO Providers (SOXXXXX)",
+        "Description": "Guidance for Amazon EKS Integrations with external SSO Providers (SO9566)",
         "Resources": {
             "EmptyResource": {
                 "Type": "AWS::CloudFormation::WaitConditionHandle"
