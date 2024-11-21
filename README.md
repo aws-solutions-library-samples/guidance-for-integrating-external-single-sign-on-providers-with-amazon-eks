@@ -1,11 +1,6 @@
 # Guidance for Amazon EKS Integrations with external SSO Providers
 
-The Guidance title should be consistent with the title established first in Alchemy.
-
-This title correlates exactly to the Guidance it’s linked to, including its corresponding sample code repository. 
-
 ## Table of Contents 
-
 
 1. [Overview](#overview)
     - [Architecture and Message Flow](#architecture-and-workflow)
@@ -25,8 +20,8 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 
 ## Overview
 
-- Many enterprise AWS customers using 3rd party Single Sign-On (SSO) authentication providers need to integrate their EKS cluster authentication with those providers for consistent application security posture
-- This guidance demonstrates how to automate deployment an Amazon EKS cluster into the AWS Cloud, to be integrated with various Identity Providers (IdP) for Single Sign-On (SSO) authentication using Terraform based blueprints. The configuration for authorization is done using Kubernetes Role-based access control (RBAC).
+- Many enterprise AWS customers are using 3rd party Single Sign-On (SSO) authentication providers to integrate their AWS EKS cluster authentication with those providers for consistent application security posture
+- This guidance demonstrates how to automate deployment of a [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/) into the AWS Cloud and its integration with various Identity Providers (IdPs) for Single Sign-On (SSO) authentication using [Terraform](https://www.hashicorp.com/products/terraform) based blueprint. The configuration for authorization is implemented using Kubernetes Role-based access control (RBAC).
 
 ### Architecture and Workflow
 
@@ -35,18 +30,17 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 Figure 1. Amazon EKS Integrations with external SSO Providers - Reference Architecture
 </div>
 
-1. User (Platform Engineer) commits and pushes [Terraform](https://www.hashicorp.com/products/terraform) Infrastructure as Code (IaC) changes to EKS Blueprints GitHub repository.
-2. Terraform Infrastructure provisioning workflow gets triggered upon code push to GitHub repo or initiated manually by Platform Engineer.
-3. Terraform starts resource deployment/reconciliation processes to the target AWS Cloud and [Okta](https://www.okta.com/) environments.
+1. Platform Engineer commits and pushes [Terraform](https://www.hashicorp.com/products/terraform) Infrastructure as Code (IaC) changes to project GitHub [repository](https://github.com/aws-solutions-library-samples/guidance-for-integrating-external-single-sign-on-providers-with-amazon-eks).
+2. A Terraform infrastructure provisioning workflow is invoked by the code push to the Git repository or is initiated manually by Platform Engineer.
+3. The Terraform infrastructure provisioning workflow starts resource deployment processes, targeting AWS and [Okta](https://www.okta.com/) environments.
 4. Required [Amazon Identity and Access Management (IAM)](https://aws.amazon.com/iam/) Roles, Polices and [Key Management Service (KMS)](https://aws.amazon.com/kms/) keys are created.
-5. [Amazon Virtual Private Cloud (VPCs)](https://aws.amazon.com/vpc/), related Subnets, Endpoints and NET Gateways are deployed.
-6. [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/) Cluster Control plane is deployed into EKS VPC.The cluster control plane is provisioned across multiple Availability Zones and fronted by [Network Load Balancing (NLB)](https://aws.amazon.com/elasticloadbalancing/network-load-balancer/)
-7. Customer VPC for Amazon EKS Compute Plane with Public and Private subnets and other networking components is deployed
-8. Amazon EKS Compute Plane with Managed Node Groups containing Amazon Elastic Compute Cloud (Amazon EC2) compute nodes running [AWS Bottlerocket](https://aws.amazon.com/bottlerocket/?amazon-bottlerocket-whats-new&amazon-bottlerocket-whats-new.sort-by=item.additionalFields.postDateTime&amazon-bottlerocket-whats-new.sort-order=desc) OS 
-are deployed into Customer VPC along with  [EKS Add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html)
-9. Okta resources, Oauth server, users, groups, and role assignments are created in the designated [Okta organization](https://developer.okta.com/docs/concepts/okta-organizations/).
-11. Integration between EKS and Okta SSO Provider is established together with required [Kubernetes Roles and RoleBidindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/).
-12. Amazon EKS Cluster is available for applications and end users, Kubernetes API is accessible via  [Network Load Balancer (NLB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) with Okta SSO user authentication
+5. [Amazon Virtual Private Cloud (Amazon VPC)](https://aws.amazon.com/vpc/) environments for [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/) control plane and related networking components are deployed.
+6. [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/) cluster control plane is deployed into EKS Virtual Provate Cloud (VPC).The cluster control plane is provisioned across multiple Availability Zones (AZs) and fronted by [Network Load Balancing (NLB)](https://aws.amazon.com/elasticloadbalancing/network-load-balancer/)
+7. Your VPC for Amazon EKS Compute Plane is deployed with public and private subnets and other networking components across multiple AZs.
+8. Amazon EKS data plane with [Managed Node Groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) containing [Amazon Elastic Compute Cloud (Amazon EC2)](https://aws-preview.aka.amazon.com/ec2/) compute nodes are deployed into your VPC 
+9. Okta resources, OAuth server, users, groups, and role assignments are created in the specified [Okta organization](https://developer.okta.com/docs/concepts/okta-organizations/).
+11. An integration between Amazon EKS and Okta SSO is created, along with required [Kubernetes Roles and RoleBidindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/).
+12. The Amazon EKS Cluster is available for applications and end users, its Kubernetes API is accessible via  [Network Load Balancer (NLB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) with Okta SSO user authentication
 
 
 ### AWS Services in this guidance
@@ -63,15 +57,13 @@ are deployed into Customer VPC along with  [EKS Add-ons](https://docs.aws.amazon
 
 ### Cost
 
-You are responsible for the cost of the AWS services used while running this Guidance. As of October, 2024 , the cost for running this Guidance with the default settings in the `us-east-1` Region (US East (N. Virginia))  is approximately $235.06-$459.95 per month.
+You are responsible for the cost of the AWS services used while running this Guidance. As of October, 2024 , the cost for running this Guidance with the default settings in the `us-east-1` Region (US East (N. Virginia)) is approximately **$235.06-$459.95 per month**.
 
 We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance.
 
 ### Sample Cost Table
 
-**Note : Once you have created a sample cost table using AWS Pricing Calculator, copy the cost breakdown to below table and upload a PDF of the cost estimation on BuilderSpace. Do not add the link to the pricing calculator in the ReadMe.**
-
-The following table provides a sample cost breakdown for deploying this Guidance with the default parameters in the US East (N. Virginia) Region for one month.
+<!-- The following table provides a sample cost breakdown for deploying this guidance with the default parameters in the US East (N. Virginia) `us-east-1` Region for one month.-->
 
 The following sample table provides a sample cost breakdown for deploying this guidance with 3 Amazon EKS clusters (one Karmada control plane and 2 managed clusters)
 in the US-East-1 `us-east-1` region for one month. The AWS cost calculator is available [here](https://calculator.aws/#/estimate?id=03fdada5a7299a7b70c51a6c9b0037cd0117cbfc). 
@@ -91,9 +83,9 @@ When you build systems on AWS infrastructure, security responsibilities are shar
 
 This guidance relies on a several reasonable default options and "principle of least privilege" access for all resources, being it's main goal to control an manage users and groups access to Amazon EKS clusters. Relying on [Okta](https://www.okta.com/) as the Single Sign-On (SSO) option for the authentication side and Kubernetes Native [Role-based Access Control (RBAC)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) for the authotization side, only authenticated users be able to login into to the cluster, and the level of access within it can be very granular to specific actions on specific resources.
 
-On the infrastructure protection, Bottlerocket, a minimal operational system specifically designed to work with container orchestrators is the option for host operational system, reducing the surface area of attacks by disabling SSH access, and enforcicing [SELinux](https://selinuxproject.org/page/Main_Page) by default.
+On the infrastructure security side, [AWS Bottlerocket](https://aws.amazon.com/bottlerocket/?amazon-bottlerocket-whats-new&amazon-bottlerocket-whats-new.sort-by=item.additionalFields.postDateTime&amazon-bottlerocket-whats-new.sort-order=desc), a minimal footprint operating system specifically designed to work with container orchestrators is used for conatiner host operational system, reducing the surface area of attacks by disabling SSH access, and enforcicing [SELinux](https://selinuxproject.org/page/Main_Page) by default.
 
-The guidance also ensure data protection with encryption enabled on Amazon EKS at the cluster level, together with all EC2 instances volumes encrypted during the node creation time using Amazon KMS, making sure that all data is encrypted by default. The Amazon EKS encryption configuration enables envelope encryption of Kubernetes secrets using KMS as well. 
+The guidance also ensures data protection with encryption enabled on Amazon EKS at the cluster level, together with all EC2 instances volumes encrypted during the node creation time using Amazon KMS, making sure that all data is encrypted by default. The Amazon EKS encryption configuration enables envelope encryption of Kubernetes secrets using KMS as well. 
 
 ## Prerequisites
 
@@ -103,19 +95,19 @@ This solution relies on [AWS Bottlerocket](https://aws.amazon.com/bottlerocket/?
 
 Bottlerocket is a Linux-based operating system optimized for hosting containers. It’s free and open-source software, developed in the open on GitHub. Bottlerocket is installed as the base operating system on the data plane side of the Amazon EKS clusters, where your containers are running. It is specifically designed to work with container orchestrator, suchas Kubernetes, to automate the lifecycle of the containers running in your cluster. 
 
-Because it's API driven, Bottlerocket comes ready to run on Amazon EKS without any additional packages or requirements, being an out-of-the-box solution, already compliant with **CIS Benchmark Level 1**.
+Because it is API driven, Bottlerocket comes ready to be used with Amazon EKS without any additional packages or requirements, being an out-of-the-box OS image already compliant with **[CIS Benchmark Level 1](https://aws.amazon.com/what-is/cis-benchmarks/)**.
 
-### Third-party tools (If applicable)
+### Third-party tools
 
-[Okta Single Sign-On](https://www.okta.com/products/single-sign-on-customer-identity/) is the only third-party software deployed as part of this solution. Okta SSO management platform provides control, security, and easiness where users can simply log in once and use all accessible resources.
+[Okta Single Sign-On](https://www.okta.com/products/single-sign-on-customer-identity/) is the main third-party software deployed as part of this solution. Okta SSO management platform provides control, security, and easy management portal where users can simply log in once and use all accessible resources.
 
 ### AWS account requirements
 
-This guidance requires you to have an active AWS account. The required resources will be deployed via Terraform.
+This guidance requires you to have an active AWS account. The required AWS resources will be deployed via Terraform.
 
 ### Supported AWS Regions
 
-The AWS services used for this guidance are supported in all AWS regions at this moment.
+The AWS services used for this guidance are supported in all AWS regions at this time.
 
 ## Deployment Steps
 
@@ -218,7 +210,7 @@ Running that file should open a browser window that provides an Okta authenticat
 
 ## Cleanup
 
-1. To tear down all the provisioned resources related to this guidance, run the Terraform destroy command from the same directory it was applied.
+1. To tear down and delete all AWS provisioned resources related to this guidance, run the `terraform destroy` command from the same directory where `terraform apply..` command was run:
 
     ```
     cd guidance-for-amazon-eks-integrations-with-external-sso-providers-on-aws/source
@@ -227,7 +219,7 @@ Running that file should open a browser window that provides an Okta authenticat
 
 ## Next Steps
 
-You are welcome to update the sample code provided in this guidance to adjust to your Okta SSO provider settings and other configuration parameters. You can also contribute to the project by submitting a Pull Request which will be reviewed and processed by the maintainers.
+You are welcome to update the sample code provided in this guidance to adjust to your SSO provider settings and other configuration parameters. You can also contribute to the project by submitting a Pull Request which will be reviewed and processed by the maintainers.
 
 ## Notices
 
