@@ -131,3 +131,52 @@ resource "okta_auth_server_policy_rule" "auth_code" {
   group_whitelist      = [okta_group.operators.id, okta_group.developers.id]
   scope_whitelist      = ["*"]
 }
+
+resource "kubernetes_cluster_role_binding_v1" "cluster_admin" {
+  metadata {
+    name = "oidc-cluster-admin"
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "cluster-admin"
+  }
+  subject {
+    kind      = "Group"
+    name      = "eks-operators"
+    api_group = "rbac.authorization.k8s.io"
+  }
+}
+
+resource "kubernetes_cluster_role_binding_v1" "cluster_viewer" {
+  metadata {
+    name = "oidc-cluster-viewer"
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "view"
+  }
+  subject {
+    kind      = "Group"
+    name      = "eks-developers"
+    api_group = "rbac.authorization.k8s.io"
+  }
+}
+
+resource "kubernetes_role_binding_v1" "namespace_editor" {
+  metadata {
+    name      = "oidc-namespace-editor"
+    namespace = "default"
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "Role"
+    name      = "edit"
+  }
+  subject {
+    kind      = "Group"
+    name      = "eks-developers"
+    api_group = "rbac.authorization.k8s.io"
+  }
+}

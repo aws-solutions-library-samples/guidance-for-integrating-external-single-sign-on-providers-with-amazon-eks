@@ -4,7 +4,12 @@
 provider "aws" {}
 
 data "aws_caller_identity" "current" {}
-data "aws_availability_zones" "available" {}
+data "aws_availability_zones" "available" {
+  filter {
+    name   = "opt-in-status"
+    values = ["opt-in-not-required"]
+  }
+}
 data "aws_region" "current" {}
 
 locals {
@@ -50,8 +55,8 @@ resource "aws_iam_role" "eks_operators" {
 # Adding guidance solution ID via AWS CloudFormation resource
 #--------------------------------------------------------------
 resource "aws_cloudformation_stack" "guidance_deployment_metrics" {
-    name = "tracking-stack"
-    template_body = <<STACK
+  name          = "tracking-stack"
+  template_body = <<STACK
     {
         "AWSTemplateFormatVersion": "2010-09-09",
         "Description": "Guidance for Amazon EKS Integrations with external SSO Providers (SO9566)",
