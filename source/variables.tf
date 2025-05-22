@@ -29,7 +29,7 @@ variable "vpc_cidr" {
 variable "cluster_version" {
   description = "Kubernetes version for Amazon EKS Cluster."
   type        = string
-  default     = "1.30"
+  default     = "1.32"
 }
 
 variable "admin_user_config" {

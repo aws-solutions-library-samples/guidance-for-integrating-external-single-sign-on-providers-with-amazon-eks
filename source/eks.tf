@@ -17,42 +17,6 @@ module "eks" {
   # To add the current caller identity as an administrator
   enable_cluster_creator_admin_permissions = true
 
-  access_entries = {
-    eks-operators = {
-      kubernetes_groups = ["eks-operators"]
-      principal_arn     = aws_iam_role.eks_operators.arn
-
-      policy_associations = {
-        clsuter_admin = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-          access_scope = {
-            type = "cluster"
-          }
-        }
-      }
-    }
-    eks-developers = {
-      kubernetes_groups = ["eks-developers"]
-      principal_arn     = aws_iam_role.eks_developers.arn
-
-      policy_associations = {
-        cluster_view = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
-          access_scope = {
-            type = "cluster"
-          }
-        }
-        namespace_admin = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
-          access_scope = {
-            type       = "namespace"
-            namespaces = ["default"]
-          }
-        }
-      }
-    }
-  }
-
   # EKS Addons
   cluster_addons = {
     coredns = {
@@ -82,7 +46,7 @@ module "eks" {
 
   eks_managed_node_groups = {
     core_nodegroup = {
-      description    = "EKS Core Managed Node Group for hosting system add-ons"
+      description = "EKS Core Managed Node Group for hosting system add-ons"
       #Use AWS Graviton based AMI for compute nodes
       instance_types = ["m7g.large"]
       ami_type       = "BOTTLEROCKET_ARM_64"

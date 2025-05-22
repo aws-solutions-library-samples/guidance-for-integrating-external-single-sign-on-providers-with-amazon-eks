@@ -1,7 +1,3 @@
-# Okta Single Sign-On for Amazon EKS Cluster
-
-This code demonstrates how to deploy an Amazon EKS cluster, integrated with Okta as an the Identity Provider (IdP) for Single Sign-On (SSO) authentication. The configuration for authorization is done using Kubernetes Role-based access control (RBAC).
-
 ## Requirements
 
 | Name | Version |
@@ -16,6 +12,7 @@ This code demonstrates how to deploy an Amazon EKS cluster, integrated with Okta
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 5.66.0 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.32.0 |
 | <a name="provider_okta"></a> [okta](#provider\_okta) | 4.1.0 |
 
 ## Modules
@@ -29,8 +26,12 @@ This code demonstrates how to deploy an Amazon EKS cluster, integrated with Okta
 
 | Name | Type |
 |------|------|
+| [aws_cloudformation_stack.guidance_deployment_metrics](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudformation_stack) | resource |
 | [aws_iam_role.eks_developers](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.eks_operators](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [kubernetes_cluster_role_binding_v1.cluster_admin](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role_binding_v1) | resource |
+| [kubernetes_cluster_role_binding_v1.cluster_viewer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role_binding_v1) | resource |
+| [kubernetes_role_binding_v1.namespace_editor](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/role_binding_v1) | resource |
 | [okta_app_group_assignments.eks](https://registry.terraform.io/providers/okta/okta/latest/docs/resources/app_group_assignments) | resource |
 | [okta_app_oauth.eks](https://registry.terraform.io/providers/okta/okta/latest/docs/resources/app_oauth) | resource |
 | [okta_auth_server.eks](https://registry.terraform.io/providers/okta/okta/latest/docs/resources/auth_server) | resource |
@@ -53,7 +54,7 @@ This code demonstrates how to deploy an Amazon EKS cluster, integrated with Okta
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_admin_user_config"></a> [admin\_user\_config](#input\_admin\_user\_config) | Configuration for Platform Admin Users. | <pre>list(object({<br>    last_name  = string<br>    first_name = string<br>    email      = string<br>  }))</pre> | <pre>[<br>  {<br>    "email": "admin@example.com",<br>    "first_name": "Engineer",<br>    "last_name": "Platform"<br>  }<br>]</pre> | no |
-| <a name="input_cluster_version"></a> [cluster\_version](#input\_cluster\_version) | Kubernetes version for Amazon EKS Cluster. | `string` | `"1.30"` | no |
+| <a name="input_cluster_version"></a> [cluster\_version](#input\_cluster\_version) | Kubernetes version for Amazon EKS Cluster. | `string` | `"1.32"` | no |
 | <a name="input_name"></a> [name](#input\_name) | Standard name to be used as prefix on all resources. | `string` | `"okta-sso"` | no |
 | <a name="input_okta_api_token"></a> [okta\_api\_token](#input\_okta\_api\_token) | Authentication token for Okta. You can generate an Okta API token in the Okta Developer Console. Follow these instructions: https://bit.ly/get-okta-api-token. | `string` | n/a | yes |
 | <a name="input_okta_org_name"></a> [okta\_org\_name](#input\_okta\_org\_name) | Okta organization name. This information is show in the https://okta.com portal after login in. Example: `dev-12345678`. | `string` | n/a | yes |
